@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
-class AuthServiceProvider extends ServiceProvider
+class BooksServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
@@ -23,6 +23,6 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('Auth', 'App\Services\AuthService');
+        $this->app->bind('Books', 'App\Services\BooksService');
     }
 }

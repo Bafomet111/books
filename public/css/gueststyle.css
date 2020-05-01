@@ -1,0 +1,37 @@
+@import "null.css";
+body{
+    background-image: url("/images/gerlic-saksoniya-germaniya.jpg");
+    background-attachment:fixed;
+}
+.wrapper{
+    width: 100%;
+    height: 100%;
+    padding: 3% 10%;
+}
+
+.books{
+    overflow: auto;
+    align-items: center;
+    align-content: center;
+    background-color: white;
+    opacity: .8;
+    border: 1px solid white;
+    border-radius: 15px;
+    height: 100%;
+    padding: 3%;
+}
+
+
+
+.books__book{
+    width: auto;
+    text-align: center;
+    border-bottom: 1px solid black;
+    line-height: 25px;
+    padding: 1% 0 1%;
+}
+
+.books__book:hover {
+    background-color: #7da8c3;
+    cursor: pointer;
+}
