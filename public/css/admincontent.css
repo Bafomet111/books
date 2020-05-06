@@ -1,0 +1,73 @@
+@import "null.css";
+
+.wrapper{
+    width: 100%;
+    height: 100%;
+    padding: 4% 4%;
+}
+
+.lists {
+    justify-content: center;
+    height: 100%;
+    display: flex;
+    align-content: center;
+}
+
+.lists>div {
+    margin: 0 1%;
+    flex-basis: 30%;
+    border: 1px solid #2a88bd;
+    border-radius: 15px 0 0 15px;
+    overflow: auto;
+}
+
+.list_head{
+    padding: 2%;
+    color: white;
+    background-color: #7da8c3;
+    text-align: center;
+}
+
+.books__list, .authors__list {
+    padding: 3%;
+}
+
+.list__book, .list__author{
+    padding: 2%;
+    border-bottom: 1px solid #5e5e5e;
+    line-height: 25px;
+}
+
+.list_item:hover{
+    cursor: pointer;
+}
+
+.redact:hover{
+    cursor: pointer;
+    font-size: calc(100% + 5px);
+}
+
+input, select{
+    border: 1px solid #2a88bd;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+#book_name {
+    display: inline-block;
+}
+
+input{
+    padding: 2%;
+}
+
+
+a.disabled {
+    pointer-events: none; /* делаем ссылку некликабельной */
+    cursor: default;  /* устанавливаем курсор в виде стрелки */
+    color: #999; /* цвет текста для нективной ссылки */
+}
+
+

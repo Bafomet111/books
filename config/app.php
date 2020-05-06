@@ -162,8 +162,6 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-        \App\Providers\AuthServiceProvider::class,
-        \App\Providers\BooksServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -179,6 +177,9 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        \App\Providers\AuthServiceProvider::class,
+        \App\Providers\BooksServiceProvider::class,
+        \App\Providers\AuthorsServiceProvider::class,
 
     ],
 
@@ -229,6 +230,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'AdminAuth' => App\Http\Fasades\Auth::class,
         'Books' => App\Http\Fasades\BooksFacade::class,
+        'Authors' => App\Http\Fasades\AuthorsFacade::class,
 
     ],
 
