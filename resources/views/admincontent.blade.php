@@ -78,17 +78,27 @@
 
     <div class="hidden" id="hidden_book_form">
         <form method="post" action="/book/update" id="book_change_form">
-            <input type="text" name="book_name" autocomplete="off" class="book_name" value=""/>
-            <div class="select_authors">
-            <select  name="author">
-                @foreach($authors as $author)
-                    <option id="author_{{ $author->id }}" data-author_id="{{ $author->id }}">
-                        {{ $author->first_name . ' ' . $author->last_name}}
-                    </option>
-                @endforeach
-            </select>
-            <a class="delete_author is_not_disabled"  href="/delete">- Удалить </a><br/>
-            </div>
+
+            <table>
+                <tr>
+                    <td>
+                        <input type="text" name="book_name" autocomplete="off" class="book_name" value=""/>
+                    </td>
+                </tr>
+                <tr class="select_authors">
+                    <td>
+                        <select  name="author">
+                            @foreach($authors as $author)
+                                <option id="author_{{ $author->id }}" data-author_id="{{ $author->id }}">
+                                    {{ $author->first_name . ' ' . $author->last_name}}
+                                </option>
+                            @endforeach
+                        </select>
+                        <a class="delete_author is_not_disabled"  href="/delete">- Удалить </a><br/>
+                    </td>
+                </tr>
+            </table>
+
             <a id="add_author" class="is_not_disabled" href="/add">+ Добавить автора</a><br/>
             <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
             <input type="submit" value="Сохранить" class="save"/>

@@ -1,5 +1,6 @@
 var blockHtml;
 
+//Изменение книги
 $(document).on('click', '#book_change',function (event) {
     event.preventDefault();
 
@@ -40,29 +41,21 @@ $(document).on('click', '#book_change',function (event) {
 
 });
 
-
-$(document).on('click', '.cansel', function () {
-    $(this).parents('.list_item').html(blockHtml)
-    $('a').removeClass('disabled');
-})
-
-$(document).on('click', '.reload_cansel', function () {
-    location.reload();
-})
-
-
+//Добавление автора к форме
 $(document).on('click', '#add_author',function (event) {
     event.preventDefault();
 
     let authors = $('.select_authors:first').clone();
-    $(this).before(authors);
+    $(this).siblings('table').append(authors);
 });
 
+//Удаление автора из формы
 $(document).on('click', '.delete_author',function (event) {
     event.preventDefault();
-    $(this).parent('.select_authors').remove();
+    $(this).parents('.select_authors').remove();
 });
 
+//Изменение автора
 $(document).on('click', '#author_change',function (event) {
     event.preventDefault();
     blockHtml = $(this).parent('div').html();
@@ -83,6 +76,7 @@ $(document).on('click', '#author_change',function (event) {
     $('a').not('.is_not_disabled').addClass('disabled');
 });
 
+//Добавление книги
 $(document).on('click', '.book_add', function () {
     let form = $('#hidden_book_form form').clone();
     form.attr('id', 'book_add_form');
@@ -95,4 +89,13 @@ $(document).on('click', '.author_add', function () {
     form.attr('id', 'author_add_form');
     form.find('.cansel').removeClass('cansel').addClass('reload_cansel');
     $('.lists').html(form);
+})
+
+$(document).on('click', '.cansel', function () {
+    $(this).parents('.list_item').html(blockHtml)
+    $('a').removeClass('disabled');
+})
+
+$(document).on('click', '.reload_cansel', function () {
+    location.reload();
 })

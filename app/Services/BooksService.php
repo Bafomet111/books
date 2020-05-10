@@ -28,12 +28,14 @@ class BooksService
         if(!empty($name)) {
             $id = DB::table('books')->insertGetId(['name' => $name]);
             $data = [];
-            foreach ($authorIds as $authorId) {
-                $data[] = ['book_id' => $id, 'author_id' => $authorId];
-            }
+            if(!empty($authorIds)) {
+                foreach ($authorIds as $authorId) {
+                    $data[] = ['book_id' => $id, 'author_id' => $authorId];
+                }
 
-            DB::table('book_author')
-                ->insert($data);
+                DB::table('book_author')
+                    ->insert($data);
+            }
 
             return $id === false ? false : true;
         } else {
