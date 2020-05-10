@@ -41,9 +41,13 @@ $(document).on('click', '#book_change',function (event) {
 });
 
 
-$(document).on('click', '#cansel', function () {
+$(document).on('click', '.cansel', function () {
     $(this).parents('.list_item').html(blockHtml)
     $('a').removeClass('disabled');
+})
+
+$(document).on('click', '.reload_cansel', function () {
+    location.reload();
 })
 
 
@@ -58,3 +62,37 @@ $(document).on('click', '.delete_author',function (event) {
     event.preventDefault();
     $(this).parent('.select_authors').remove();
 });
+
+$(document).on('click', '#author_change',function (event) {
+    event.preventDefault();
+    blockHtml = $(this).parent('div').html();
+
+    let lastName = $(this).siblings('.author_name').find('.last_name').text();
+    let firstName = $(this).siblings('.author_name').find('.first_name').text();
+    let middleName = $(this).siblings('.author_name').find(' .middle_name').text();
+    let authorId = $(this).data('author_id');
+
+    let form = $('#hidden_author_form form').clone();
+    form.attr('data-author_id', authorId);
+    form.find('.last_name').val(lastName);
+    form.find('.first_name').val(firstName);
+    form.find('.middle_name').val(middleName);
+    $(this).parent('div').html(form);
+
+    //делаем все ссылки неактивными
+    $('a').not('.is_not_disabled').addClass('disabled');
+});
+
+$(document).on('click', '.book_add', function () {
+    let form = $('#hidden_book_form form').clone();
+    form.attr('id', 'book_add_form');
+    form.find('.cansel').removeClass('cansel').addClass('reload_cansel');
+    $('.lists').html(form);
+})
+
+$(document).on('click', '.author_add', function () {
+    let form = $('#hidden_author_form form').clone();
+    form.attr('id', 'author_add_form');
+    form.find('.cansel').removeClass('cansel').addClass('reload_cansel');
+    $('.lists').html(form);
+})

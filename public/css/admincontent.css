@@ -73,3 +73,43 @@ a.disabled {
 #add_author{
     display: block;
 }
+
+.save,.cansel{
+    cursor: pointer;
+}
+
+.menu{
+    border: 1px solid #2a88bd;
+    background-color: #2a88bd;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 3%;
+    position: fixed;
+    width: 100%;
+}
+
+.menu>.right{
+    height: 100%;
+    background-color: white;
+    padding: 1% 2%;
+}
+
+.left{
+    display: flex;
+    padding: 0 3%;
+}
+
+.menu>div>div:hover{
+    cursor: pointer;
+    box-shadow: 1px 1px 1px #000000;
+    background-color: #7da8c3;
+    color: white;
+}
+
+.left>div{
+    align-content: center;
+    margin: 0 10px;
+    padding: 0 2%;
+    border: 1px solid black;
+    background-color: white;
+}

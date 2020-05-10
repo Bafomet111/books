@@ -16,6 +16,12 @@ Route::get('/admin', 'AdminController@index');
 
 Route::post('/admin', 'AdminController@auth');
 
+Route::post('/book/add', 'AdminController@addBook');
 Route::post('/book/{type}', 'AdminController@bookChange');
-//Route::post('/author/{type}', 'AdminController@authorChange');
+
+Route::post('/author/add', 'AdminController@addAuthor');
+Route::post('/author/{type}', 'AdminController@authorChange');
+
+Route::get('/admin/logout', 'AdminController@logout');
+
 

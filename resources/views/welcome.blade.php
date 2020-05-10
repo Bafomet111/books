@@ -18,9 +18,23 @@
             @foreach($books as $bookInfo)
                 <div class="books__book">
                     <h2>{{ $bookInfo->name }}</h2>
-                    <span>Автор: </span>
-                    {{ $bookInfo->first_name }}
-                    {{ $bookInfo->last_name }}
+                    <div class="authors__list">
+                        @if (isset($authors))
+                            @foreach($authors as $author)
+                                <div class="list__author list_item">
+                                    <h3 class="author_name">
+                                        <span class="first_name">{{ $author->first_name }}</span>
+                                        <span class="last_name">{{ $author->last_name }}</span>
+                                        <span class="middle_name">{{ $author->middle_name }}</span>
+                                    </h3>
+                                    <span>Количество книг: {{ $author->books_count}}</span>
+                                    </br>
+                                    <a href="/change" data-author_id="{{ $author->author_id }}" id="author_change" class="redact">Изменить</a>
+                                    <a href="/delete" data-author_id="{{ $author->author_id }}" id="author_delete" class="redact">Удалить</a>
+                                </div>
+                            @endforeach
+                        @endif
+                    </div>
                 </div>
             @endforeach
             </div>

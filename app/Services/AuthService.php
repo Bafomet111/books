@@ -25,7 +25,7 @@ class AuthService
         return $result ? true : false;
     }
 
-    public function authByCookie($token)
+    public function authBySessionToken($token)
     {
         $result = DB::table('admin')
             ->get()

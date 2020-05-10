@@ -10,12 +10,6 @@ class BooksService
 {
     public function loadAllBooksWithAuthors()
     {
-//        $result = DB::table('books')
-//            ->join('book_author', 'books.id', '=', 'book_author.book_id')
-//            ->join('authors', 'authors.id', '=', 'book_author.author_id')
-//            ->get();
-//
-
         $books = DB::table('books')->get();
         foreach ($books as $book) {
             $authors = DB::table('book_author')
@@ -29,11 +23,21 @@ class BooksService
         return $books;
     }
 
-    public function addBook($name, $authorId)
+    public function addBook($name, $authorIds)
     {
-        $result = DB::table('books')->insert(['name' => $name, 'author_id' => $authorId]);
-        if($result === false) {
-            //ошибка
+        if(!empty($name)) {
+            $id = DB::table('books')->insertGetId(['name' => $name]);
+            $data = [];
+            foreach ($authorIds as $authorId) {
+                $data[] = ['book_id' => $id, 'author_id' => $authorId];
+            }
+
+            DB::table('book_author')
+                ->insert($data);
+
+            return $id === false ? false : true;
+        } else {
+            return false;
         }
     }
 

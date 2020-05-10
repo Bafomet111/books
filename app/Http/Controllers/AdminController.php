@@ -11,11 +11,11 @@ use Authors;
 
 class AdminController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $params['auth'] = false;
-        if($token = Cookie::get('authtoken')) {
-            $auth = AdminAuth::authByCookie($token);
+        if($token = $request->session()->getToken()) {
+            $auth = AdminAuth::authBySessionToken($token);
             $params = [
                 'auth' => $auth,
                 'books' => Books::loadAllBooksWithAuthors(),
@@ -30,15 +30,9 @@ class AdminController extends Controller
     {
         $login = $request->input('login');
         $password = $request->input('password');
-        $token = Cookie::get('authtoken');
-
-        if(is_null($token)) $token = md5(microtime() * rand());
+        $token = $request->session()->getToken();
 
         $auth = AdminAuth::authByLoginAndPassword($login, $password, $token);
-        if($auth) {
-            Cookie::queue('authtoken', $token, 3600);
-        }
-
         return redirect('/admin');
     }
 
@@ -47,27 +41,93 @@ class AdminController extends Controller
         $bookId = $request->input('book_id', null);
         $newBookName = $request->input('book_name', null);
         $authorIds = $request->input('authors', null);
+        $token = $request->input('_token');
 
-        if($type == 'update') {
-            if(Books::updateBook($newBookName, $bookId, $authorIds)) {
-                return ['status' => 'ok'];
-            } else {
-                return ['status' => 'error'];
+        $auth = AdminAuth::authBySessionToken($token);
+
+        if($auth) {
+            if ($type == 'update') {
+                if (Books::updateBook($newBookName, $bookId, $authorIds)) {
+                    return ['status' => 'ok'];
+                } else {
+                    return ['status' => 'error'];
+                }
             }
-        }
 
-        if($type == 'delete') {
-            if(Books::deleteBook($bookId)) {
-                return ['status' => 'ok'];
-            } else {
-                return ['status' => 'error'];
+            if ($type == 'delete') {
+                if (Books::deleteBook($bookId)) {
+                    return ['status' => 'ok'];
+                } else {
+                    return ['status' => 'error'];
+                }
             }
         }
 
     }
 
-    public function authorChange()
+    public function authorChange(Request $request, $type)
     {
+        $token = $request->input('_token');
+
+        $auth = AdminAuth::authBySessionToken($token);
+
+        if($auth) {
+            $params = $request->input();
+
+            if($type == 'update') {
+                if (Authors::update($params)) {
+                    return ['status' => 'ok'];
+                } else {
+                    return ['status' => 'error'];
+                }
+            }
+
+            if($type == 'delete') {
+                if (Authors::deleteAuthor($params['author_id'])) {
+                    return ['status' => 'ok'];
+                } else {
+                    return ['status' => 'error'];
+                }
+            }
+        }
 
     }
+
+    public function addBook(Request $request)
+    {
+        $authorIds = $request->input('authors');
+        $bookName = $request->input('name');
+        $token = $request->input('_token');
+
+        if(AdminAuth::authBySessionToken($token)) {
+            if(Books::addBook($bookName, $authorIds)) {
+                return ['status' => 'ok'];
+            } else {
+                return ['status' => 'error'];
+            }
+        }
+    }
+
+    public function addAuthor(Request $request)
+    {
+        $params = $request->input();
+        $token = $request->input('_token');
+
+        if(AdminAuth::authBySessionToken($token)) {
+            if(Authors::addAuthor($params)) {
+                return ['status' => 'ok'];
+            } else {
+                return ['status' => 'error'];
+            }
+        }
+
+        return false;
+    }
+
+    public function logout(Request $request)
+    {
+        $request->session()->clear();
+        return redirect('/admin');
+    }
+
 }
