@@ -52,7 +52,7 @@ input, select{
 }
 
 .hidden {
-    visibility: hidden;
+    display: none;
 }
 
 #book_name {
@@ -70,4 +70,6 @@ a.disabled {
     color: #999; /* цвет текста для нективной ссылки */
 }
 
-
+#add_author{
+    display: block;
+}

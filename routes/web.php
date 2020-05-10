@@ -13,5 +13,9 @@
 
 Route::get('/', 'GuestController@index');
 Route::get('/admin', 'AdminController@index');
+
 Route::post('/admin', 'AdminController@auth');
+
+Route::post('/book/{type}', 'AdminController@bookChange');
+//Route::post('/author/{type}', 'AdminController@authorChange');
 

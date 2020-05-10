@@ -42,4 +42,32 @@ class AdminController extends Controller
         return redirect('/admin');
     }
 
+    public function bookChange(Request $request, $type)
+    {
+        $bookId = $request->input('book_id', null);
+        $newBookName = $request->input('book_name', null);
+        $authorIds = $request->input('authors', null);
+
+        if($type == 'update') {
+            if(Books::updateBook($newBookName, $bookId, $authorIds)) {
+                return ['status' => 'ok'];
+            } else {
+                return ['status' => 'error'];
+            }
+        }
+
+        if($type == 'delete') {
+            if(Books::deleteBook($bookId)) {
+                return ['status' => 'ok'];
+            } else {
+                return ['status' => 'error'];
+            }
+        }
+
+    }
+
+    public function authorChange()
+    {
+
+    }
 }

@@ -19,9 +19,21 @@
                                  <h3 class="book_name" >
                                      {{ $book->name }}
                                  </h3>
-                                <span>Автор: {{ $book->first_name . ' ' . $book->last_name}}</span> </br>
-                                <a id="book_change" data-book_id="{{ $book->book_id }}" href="/change" class="redact">Изменить</a>
-                                <a id="book_delete" data-book_id="{{ $book->book_id }}" href="/delete" class="redact">Удалить</a>
+
+                                @if(!empty($book->authors))
+                                    {{ count($book->authors) > 1 ? 'Авторы:' :  'Автор:' }}
+                                @endif
+                                </br>
+                                @foreach($book->authors as $author)
+
+                                    <span class="author" data-author_id = "{{ $author->id }}">
+                                         {{ $author->first_name . ' ' . $author->last_name}}
+                                    </span> </br>
+
+                                @endforeach
+
+                                <a id="book_change"  data-book_id="{{ $book->id }}" href="/change" class="redact">Изменить</a>
+                                <a id="book_delete" data-book_id="{{ $book->id }}" href="/delete" class="redact">Удалить</a>
                             </div>
                         @endforeach
                     @endif
@@ -51,19 +63,36 @@
     </div>
 
     <div class="hidden" id="hidden_book_form">
-        <form method="post" action="/update">
+        <form method="post" action="/book/update" id="book_change_form">
             <input type="text" name="book_name" autocomplete="off" class="book_name" value=""/>
-            <select>
+            <div class="select_authors">
+            <select  name="author">
                 @foreach($authors as $author)
-                    <option data-author_id="{{ $author->id }}">
+                    <option id="author_{{ $author->id }}" data-author_id="{{ $author->id }}">
                         {{ $author->first_name . ' ' . $author->last_name}}
                     </option>
                 @endforeach
-            </select> </br>
+            </select>
+            <a class="delete_author is_not_disabled"  href="#">- Удалить </a><br/>
+            </div>
+            <a id="add_author" class="is_not_disabled" href="#">+ Добавить автора</a><br/>
+            <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
             <input type="submit" value="Сохранить" id="save"/>
             <input type="button" value="Отмена" id="cansel"/>
+        </form>
+    </div>
 
+    <div class="hidden" id="hidden_author_form">
+        <form method="post" action="/author/update" id="author_change_form">
+            <label>Фамилия</label><input type="text" name="first_name" autocomplete="off" value=""/>
+            <label>Имя</label><input type="text" name="last_name" autocomplete="off" value=""/>
+            <label>Отчество</label><input type="text" name="middle_name" autocomplete="off" value=""/>
+
+            <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
+            <input type="submit" value="Сохранить" id="save"/>
+            <input type="button" value="Отмена" id="cansel"/>
         </form>
     </div>
 </body>
 <script src="{{ asset('/js/script.js') }}"></script>
+<script src="{{ asset('/js/ajax_submit.js') }}"></script>
