@@ -25,3 +25,4 @@ Route::post('/author/{type}', 'AdminController@authorChange');
 Route::get('/admin/logout', 'AdminController@logout');
 
 
+

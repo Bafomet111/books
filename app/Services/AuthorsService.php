@@ -4,6 +4,7 @@
 namespace App\Services;
 
 
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 
 class AuthorsService
@@ -17,15 +18,23 @@ class AuthorsService
         //SELECT *,COUNT(*) as  FROM `authors` LEFT JOIN `book_author` ON `author_id`
         // WHERE `book_author`.`author_id` = `authors`.`id` GROUP BY `book_author`.`author_id`
 
-        $result = DB::table('authors')
-            ->leftJoin('book_author', 'book_author.author_id', '=', 'authors.id')
-            ->select('*', DB::raw('count(*) as books_count'))
-            ->groupBy('author_id')
-            ->get();
+//        $result = DB::table('authors')
+//            ->leftJoin('book_author', 'book_author.author_id', '=', 'authors.id')
+//            ->select('*', DB::raw('count(*) as books_count'))
+//            ->groupBy('author_id')
+//            ->get();
+        $result = DB::table('authors')->get();
 
+        foreach ($result as $author) {
+            $bookCount = DB::table('book_author')
+                ->where('author_id', $author->id)
+                ->count();
+            $author->books_count = $bookCount;
+        }
 
         return $result;
     }
+
 
     public function update($params)
     {
@@ -43,7 +52,12 @@ class AuthorsService
         }
     }
 
-    public function addAuthor($params)
+    /**
+     * @param $params - данные автора
+     * @param bool $returnId - параметр для возврата id записи вместо булева значения
+     * @return bool
+     */
+    public function addAuthor($params, $returnId = false)
     {
 
         if (!empty($params)) {
@@ -51,9 +65,18 @@ class AuthorsService
             $data['first_name'] = isset($params['first_name']) ? $params['first_name'] : '';
             $data['middle_name'] = isset($params['middle_name']) ? $params['middle_name'] : '';
 
-            $result = DB::table('authors')->insert($data);
+            try {
+                $result = DB::table('authors')->insertGetId($data);
+            } catch (QueryException $ex) {
+                return false;
+            }
 
-            return $result === false ? false : true;
+            if($returnId) {
+                $returnValue = $result === false ? false : $result;
+            } else {
+                $returnValue = $result === false ? false : true;
+            }
+            return $returnValue;
         }
 
         return false;

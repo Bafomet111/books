@@ -13,6 +13,15 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('/user', function (Request $request) {
+/*Route::get('/user', function (Request $request) {
     return $request->user();
-})->middleware('auth:api');
+})->middleware('auth:api');*/
+
+Route::group(['prefix' => '/v1/books'], function (){
+    Route::get('/list', 'ApiController@loadAllBooks');
+    Route::get('/by-id', 'ApiController@loadById');
+
+    Route::post('/update', 'ApiController@updateById');
+    Route::delete('/{id}', 'ApiController@deleteById')->where('id', '[0-9]+');
+});
+
