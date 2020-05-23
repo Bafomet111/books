@@ -4,6 +4,7 @@
 namespace App\Services;
 
 
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 use Authors;
 
@@ -101,14 +102,30 @@ class BooksService
                 }
 
                 //Удаляем старые связи для этой книги
-                if($update && !empty($data)) {
+                if($update) {
                     DB::table('book_author')
                         ->where('book_id', $bookId)
                         ->delete();
                 }
-                if(!empty($data)) {
-                    DB::table('book_author')
-                        ->insert($data);
+                try {
+                    if (!empty($data)) {
+                        DB::table('book_author')
+                            ->insert($data);
+                    }
+                } catch (QueryException $exception) {
+                    foreach ($data as $key=>$row) {
+                        //Проверка на наличие записи в таблице со связями
+                        $hasData = DB::table('book_author')
+                            ->where('book_id', $bookId)
+                            ->where('author_id', $row['author_id'])
+                            ->exists();
+                        if($hasData) unset($data[$key]);
+                    }
+
+                    if (!empty($data)) {
+                        DB::table('book_author')
+                            ->insert($data);
+                    }
                 }
             }
 

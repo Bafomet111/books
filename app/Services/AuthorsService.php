@@ -68,7 +68,11 @@ class AuthorsService
             try {
                 $result = DB::table('authors')->insertGetId($data);
             } catch (QueryException $ex) {
-                return false;
+                $result = DB::table('authors')
+                    ->where('last_name', $data['last_name'])
+                    ->where('first_name', $data['first_name'])
+                    ->where('middle_name', $data['middle_name'])
+                    ->value('id');
             }
 
             if($returnId) {

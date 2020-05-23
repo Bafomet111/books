@@ -17,7 +17,7 @@ use Illuminate\Http\Request;
     return $request->user();
 })->middleware('auth:api');*/
 
-Route::group(['prefix' => '/v1/books'], function (){
+Route::group(['prefix' => '/v1/books', 'middleware' => 'apiAuth'], function (){
     Route::get('/list', 'ApiController@loadAllBooks');
     Route::get('/by-id', 'ApiController@loadById');
 

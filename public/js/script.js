@@ -84,6 +84,7 @@ $(document).on('click', '.book_add', function () {
     $('.lists').html(form);
 })
 
+//Добаление автора
 $(document).on('click', '.author_add', function () {
     let form = $('#hidden_author_form form').clone();
     form.attr('id', 'author_add_form');
