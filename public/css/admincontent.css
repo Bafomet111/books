@@ -114,4 +114,13 @@ a.disabled {
     background-color: white;
 }
 
+.big_form{
+    margin-top: 3%;
+    flex-basis: 30%;
+    height: 40%;
+    padding: 1%;
+    border: 1px solid #2a88bd;
+    overflow: auto;
+}
+
 

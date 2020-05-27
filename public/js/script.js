@@ -81,6 +81,7 @@ $(document).on('click', '.book_add', function () {
     let form = $('#hidden_book_form form').clone();
     form.attr('id', 'book_add_form');
     form.find('.cansel').removeClass('cansel').addClass('reload_cansel');
+    form.addClass('big_form');
     $('.lists').html(form);
 })
 
@@ -89,6 +90,7 @@ $(document).on('click', '.author_add', function () {
     let form = $('#hidden_author_form form').clone();
     form.attr('id', 'author_add_form');
     form.find('.cansel').removeClass('cansel').addClass('reload_cansel');
+    form.addClass('big_form');
     $('.lists').html(form);
 })
 
